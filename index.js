@@ -4,6 +4,7 @@ const mongoose = require("mongoose")
 const cors = require("cors");
 const adminRouter = require("./routes/admin");
 const productRouter = require("./routes/product");
+const userRouter = require("./routes/user");
 
 const app = express();
 const PORT = 8000;
@@ -13,6 +14,7 @@ app.use(cors())
 app.use(authRouter)
 app.use(adminRouter)
 app.use(productRouter)
+app.use(userRouter)
 
 mongoose.connect("mongodb://localhost:27017/amazonDb").then(()=>{
     console.log("Connection successfully")
