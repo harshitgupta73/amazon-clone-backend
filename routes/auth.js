@@ -7,13 +7,14 @@ const auth = require("../middleware/auth_middleware");
 
 authRouter.post("/api/signup", async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    let { name, email, password } = req.body;
+    // console.log("Request body:", req.body);
 
     if (!name || !email || !password) {
       return res.status(400).json({ msg: "Please enter all required fields." });
     }
 
-    const  existingUser = await User.findOne({ email });
+    let  existingUser = await User.findOne({ email });
 
     if (existingUser) {
       return res
@@ -21,9 +22,9 @@ authRouter.post("/api/signup", async (req, res) => {
         .json({ msg: "User with same email already exist" });
     }
 
-    const hashedPassword = await bcryptjs.hash(password, 8);
+    let hashedPassword = await bcryptjs.hash(password, 8);
 
-    const user = new User({
+    let user = new User({
       name,
       email,
       password: hashedPassword,
@@ -31,6 +32,7 @@ authRouter.post("/api/signup", async (req, res) => {
     user = await user.save();
 
     res.json(user);
+    console.log(user);
   } catch (e) {
     res.status(500).json({ err: e.message });
   }
@@ -39,23 +41,23 @@ authRouter.post("/api/signup", async (req, res) => {
 
 authRouter.post("/api/signin", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    let { email, password } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({ msg: "Please enter all required fields." });
     }
 
-    const user = await User.findOne({ email });
+    let user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ msg: "User with email doesn't exist" });
     }
 
-    const isMatched = await bcryptjs.compare(password, user.password);
+    let isMatched = await bcryptjs.compare(password, user.password);
     if (!isMatched) {
       return res.status(400).json({ msg: "Enter correct password" });
     }
 
-    const token = jwt.sign({ id: user._id }, "passwordKey");
+    let token = jwt.sign({ id: user._id }, "passwordKey");
     res.json({ token, ...user._doc });
   } catch (e) {
     res.status(500).json({ err: e.message });
