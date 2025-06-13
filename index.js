@@ -8,7 +8,7 @@ const userRouter = require("./routes/user");
 require("dotenv").config();
 
 const app = express();
-const PORT =  8000;
+const PORT = 8000;
 
 app.use(express.json());
 app.use(cors());
@@ -18,7 +18,10 @@ app.use(adminRouter)
 app.use(productRouter)
 app.use(userRouter)
 
-mongoose.connect(process.env.MONGO_URI).then(()=>{
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then(()=>{
     console.log("Connection successfully")
 }).catch((e)=>{
     console.log(e)

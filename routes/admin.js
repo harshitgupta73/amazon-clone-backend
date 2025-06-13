@@ -6,8 +6,9 @@ const adminRouter = express.Router();
 
 adminRouter.post("/admin/add-product", admin, async (req, res) => {
   try {
-    console.log("Request body:", req.body);
+    
     const { name, description, category, price, images, quantity } = req.body;
+    console.log("Request body:", req.body);
 
     let product = new Product({
       name,

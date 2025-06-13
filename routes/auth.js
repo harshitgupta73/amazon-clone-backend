@@ -42,6 +42,7 @@ authRouter.post("/api/signup", async (req, res) => {
 authRouter.post("/api/signin", async (req, res) => {
   try {
     let { email, password } = req.body;
+    console.log(req.body);
 
     if (!email || !password) {
       return res.status(400).json({ msg: "Please enter all required fields." });
@@ -58,6 +59,8 @@ authRouter.post("/api/signin", async (req, res) => {
     }
 
     let token = jwt.sign({ id: user._id }, "passwordKey");
+    console.log("Token generated:", token);
+    console.log("User data:", user._doc);
     res.json({ token, ...user._doc });
   } catch (e) {
     res.status(500).json({ err: e.message });
