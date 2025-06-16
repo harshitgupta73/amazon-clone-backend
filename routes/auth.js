@@ -8,7 +8,7 @@ const auth = require("../middleware/auth_middleware");
 authRouter.post("/api/signup", async (req, res) => {
   try {
     let { name, email, password } = req.body;
-    // console.log("Request body:", req.body);
+    console.log("Request body:", req.body);
 
     if (!name || !email || !password) {
       return res.status(400).json({ msg: "Please enter all required fields." });
@@ -31,10 +31,14 @@ authRouter.post("/api/signup", async (req, res) => {
     });
     user = await user.save();
 
-    res.json(user);
-    console.log(user);
+    return res.json(user);
+    // console.log(user);
   } catch (e) {
-    res.status(500).json({ err: e.message });
+    if (!res.headersSent) {
+      return res.status(500).json({ err: e.message });
+    } else {
+      console.error("Headers already sent:", e);
+    }
   }
   //return the response to user
 });
