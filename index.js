@@ -18,10 +18,7 @@ app.use(adminRouter)
 app.use(productRouter)
 app.use(userRouter)
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(()=>{
+mongoose.connect(process.env.MONGO_URI).then(()=>{
     console.log("Connection successfully")
 }).catch((e)=>{
     console.log(e)
